@@ -6,6 +6,6 @@
     "improv": true
   },
   "files": {
-    "firmware.bin": ""https://almogu.github.io/luz-rgb/firmware.bin"
+    "firmware.bin": "https://almogu.github.io/luz-rgb/firmware.bin"
   }
 }
