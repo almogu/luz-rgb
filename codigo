@@ -1,0 +1,105 @@
+esphome:
+  name: luz-rgb
+  platform: ESP8266
+  board: d1_mini
+  project:
+    name: "almogu.luz_rgb"
+    version: "1.0.0"
+
+# Configuración Wi-Fi con portal cautivo
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: "Los inventos de Almogu - luz RGB"
+    password: ""
+
+logger:
+
+api:
+# Añade tu contraseña de API aquí si es necesario
+
+ota:
+  platform: esphome
+  password: ""  # Añade tu contraseña OTA
+
+# Captive portal para configuración inicial de Wi-Fi
+captive_portal:
+
+# Servidor web para control y configuración adicional
+web_server:
+  port: 80
+
+dashboard_import:
+  package_import_url: 
+
+# Pines de salida configurados para la tira LED RGB
+output:
+  - platform: esp8266_pwm
+    pin: D2  # Pin rojo
+    id: gpio_red
+  - platform: esp8266_pwm
+    pin: D3  # Pin verde
+    id: gpio_green
+  - platform: esp8266_pwm
+    pin: D4  # Pin azul
+    id: gpio_blue
+
+# Control de la tira LED RGB
+light:
+  - platform: rgb
+    name: "Tira LED RGB"
+    red: gpio_red
+    green: gpio_green
+    blue: gpio_blue
+    id: led_strip
+    effects:
+      - random:
+          name: "Efecto aleatorio lento"
+          transition_length: 30s
+          update_interval: 30s
+      - random:
+          name: "Efecto aleatorio rápido"
+          transition_length: 10s
+          update_interval: 10s
+      - strobe:
+          name: "Efecto Estroboscópico"
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 0%
+              duration: 500ms
+            - red: 0%
+              green: 100%
+              blue: 0%
+              duration: 500ms
+      - pulse:
+          name: "Efecto Pulso Suave"
+          transition_length: 2s
+          update_interval: 2s
+
+# Sensor de señal Wi-Fi
+sensor:
+  - platform: wifi_signal
+    id: wifi_signal_db
+    update_interval: 60s
+    entity_category: "diagnostic"
+
+  - platform: copy
+    source_id: wifi_signal_db
+    name: "Wifi luz RGB"
+    filters:
+      - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
+    unit_of_measurement: " %"
+    entity_category: "diagnostic"
+
+# Información adicional de la red
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: "IP Luz RGB"
+
+# Botón para reiniciar el dispositivo
+button:
+  - platform: restart
+    name: "Reiniciar Luz RGB"
