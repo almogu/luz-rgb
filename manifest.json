@@ -5,6 +5,7 @@
     "chipFamily": "ESP8266",
     "improv": true
   },
+  "description": "Este firmware sobrescribirá el existente. Si tienes problemas, borra manualmente la memoria flash antes de flashear.",
   "files": {
     "firmware.bin": "https://almogu.github.io/luz-rgb/firmware.bin"
   }
