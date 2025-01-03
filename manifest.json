@@ -1,0 +1,11 @@
+{
+  "name": "Luz RGB",
+  "platform": "ESP8266",
+  "build": {
+    "chipFamily": "ESP8266",
+    "improv": true
+  },
+  "files": {
+    "firmware.bin": "https://TU_DOMINIO.com/luz_rgb/firmware.bin"
+  }
+}
